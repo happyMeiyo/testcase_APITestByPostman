@@ -8,7 +8,7 @@ node('229') {
     catchError {
             sh '''#!/bin/bash -il
             
-            newman run APITestForXiaoHeXianWeb.postman_collection.json --suppress-exit-code -e xiaoHeXian_Web.dev_environment.json -g postman_globals.json -r cli,html --reporter-html-export report/reportWeb.html
+            newman run APITestForXiaoHeXianWeb.postman_collection.json -e xiaoHeXian_Web.dev_environment.json -g postman_globals.json -r cli,html --reporter-html-export report/reportWeb.html
             '''
         }
         echo currentBuild.result
@@ -29,7 +29,7 @@ node('229') {
         catchError {
             sh '''#!/bin/bash -il
             
-            newman run APITestForXiaoHeXianAPP.postman_collection.json --suppress-exit-code -e xiaoHeXian_APP.dev_environment.json -g postman_globals.json -r cli,html --reporter-html-export report/reportAPP.html
+            newman run APITestForXiaoHeXianAPP.postman_collection.json -e xiaoHeXian_APP.dev_environment.json -g postman_globals.json -r cli,html --reporter-html-export report/reportAPP.html
             '''
         }
         echo currentBuild.result
