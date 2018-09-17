@@ -405,68 +405,6 @@
 					"response": []
 				},
 				{
-					"name": "refreshAccessTokenSuccess",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "6367f799-5ccc-42b0-a788-3ff2cc69e575",
-								"type": "text/javascript",
-								"exec": [
-									"",
-									"pm.test(\"refreshAccessTokenSuccess\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result.success).to.eql(true);",
-									"});",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "refreshToken",
-									"value": "{{refreshToken}}",
-									"type": "text"
-								},
-								{
-									"key": "userId",
-									"value": "{{userId}}",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}app/v1/passport/refresh/token",
-							"host": [
-								"{{URL}}app"
-							],
-							"path": [
-								"v1",
-								"passport",
-								"refresh",
-								"token"
-							]
-						},
-						"description": "刷新AccessToken成功"
-					},
-					"response": []
-				},
-				{
 					"name": "refreshAccessTokenFail_refreshTokenNull",
 					"event": [
 						{
@@ -587,6 +525,68 @@
 							]
 						},
 						"description": "userId为Null"
+					},
+					"response": []
+				},
+				{
+					"name": "refreshAccessTokenSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6367f799-5ccc-42b0-a788-3ff2cc69e575",
+								"type": "text/javascript",
+								"exec": [
+									"",
+									"pm.test(\"refreshAccessTokenSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "refreshToken",
+									"value": "{{refreshToken}}",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "{{userId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}app/v1/passport/refresh/token",
+							"host": [
+								"{{URL}}app"
+							],
+							"path": [
+								"v1",
+								"passport",
+								"refresh",
+								"token"
+							]
+						},
+						"description": "刷新AccessToken成功"
 					},
 					"response": []
 				},
@@ -1434,12 +1434,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3e1c5591-35a6-4922-9de2-5c9f4fa685c4",
+								"id": "7612b7a8-579d-4e47-8109-1dd4cb8c644b",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"getStockDetailOfTheGoodOfAllStoreFail_skuIdNotExist\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"    pm.expect(jsonData.data.totalCount).to.eql(0);",
 									"    ",
 									"});",
 									"",
@@ -1492,12 +1492,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b22d24a5-1711-4e6d-9e8e-0c8653ba0970",
+								"id": "95ef35e6-8a29-49e7-a331-dece18016e88",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"getStockDetailOfTheGoodOfAllStoreFail_skuIdNull\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result.success).to.eql(false);",
+									"    pm.expect(jsonData.data.totalCount).to.eql(0);",
 									"    ",
 									"});",
 									"",
@@ -2601,312 +2601,6 @@
 				}
 			],
 			"description": "入库管理"
-		},
-		{
-			"name": "OrderManage",
-			"item": [
-				{
-					"name": "merchantLoginSuccess",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "5ab53545-7c08-48c0-bf1a-0e81278847ed",
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"merchantLoginSuccess\", function () {",
-									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"username\"));",
-									"    ",
-									"    pm.environment.set(\"userId\", jsonData.data.userId);",
-									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
-									"});"
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json;charset=UTF-8"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "merchantCode",
-									"value": "{{merchantCode}}",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "{{password}}",
-									"type": "text"
-								},
-								{
-									"key": "username",
-									"value": "{{username}}",
-									"type": "text"
-								},
-								{
-									"key": "verifyCode",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}app/v1/passport/login",
-							"host": [
-								"{{URL}}app"
-							],
-							"path": [
-								"v1",
-								"passport",
-								"login"
-							]
-						},
-						"description": "商户登录成功"
-					},
-					"response": []
-				},
-				{
-					"name": "订单汇总单据",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "beginTime",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "cashierId",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "endTime",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "storeId",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}app/v1/order/bill",
-							"host": [
-								"{{URL}}app"
-							],
-							"path": [
-								"v1",
-								"order",
-								"bill"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "首页订单金额汇总",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "beginTime",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "cashierId",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "endTime",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "storeId",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://gw3.ci.heyean.com/app/v1/order/amount/sum",
-							"protocol": "http",
-							"host": [
-								"gw3",
-								"ci",
-								"heyean",
-								"com"
-							],
-							"path": [
-								"app",
-								"v1",
-								"order",
-								"amount",
-								"sum"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "订单详情",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "orderNo",
-									"value": "",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}app/v1/order/detail",
-							"host": [
-								"{{URL}}app"
-							],
-							"path": [
-								"v1",
-								"order",
-								"detail"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "订单列表",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "*/*"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "endTime",
-									"value": "{{endTime}}",
-									"type": "text"
-								},
-								{
-									"key": "onlySeeSuc",
-									"value": "{{onlySeeSuc}}",
-									"type": "text"
-								},
-								{
-									"key": "pageNumber",
-									"value": "{{pageNumber}}",
-									"type": "text"
-								},
-								{
-									"key": "pageSize",
-									"value": "{{pageSize}}",
-									"type": "text"
-								},
-								{
-									"key": "query",
-									"value": "{{query}}",
-									"type": "text"
-								},
-								{
-									"key": "startTime",
-									"value": "{{startTime}}",
-									"type": "text"
-								},
-								{
-									"key": "storeId",
-									"value": "{{storeId}}",
-									"type": "text"
-								},
-								{
-									"key": "tradeType",
-									"value": "{{tradeType}}",
-									"type": "text"
-								},
-								{
-									"key": "userId",
-									"value": "{{userId}}",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}app/v1/order/list",
-							"host": [
-								"{{URL}}app"
-							],
-							"path": [
-								"v1",
-								"order",
-								"list"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "订单管理"
 		}
 	],
 	"event": [

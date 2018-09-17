@@ -1,0 +1,2335 @@
+{
+	"info": {
+		"_postman_id": "b6c605cf-6eb9-4410-9e7d-4881fe43d8c0",
+		"name": "APITestForXiaoHeXianCashier",
+		"description": "小禾苗的API测试，PC收银台端",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "UserManage",
+			"item": [
+				{
+					"name": "merchantLoginFail_Forbidden",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc89d5ac-2f3a-4ceb-b9e8-54d09455ed90",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"merchantLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(false);",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"LOGIN_FORBIDDEN\");",
+									"    ",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "商户禁止登录"
+					},
+					"response": []
+				},
+				{
+					"name": "shopKeeperLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6647c202-4995-4a99-ad31-640318298748",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{shopkeeper}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "店长登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "shopKeeperLoginSuccess_ByPhone",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3a4ec4f2-767c-42e8-879c-a50e6e6cc1c6",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userPhone).to.eql(pm.environment.get(\"userphone\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{userphone}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "店长登录成功，使用手机号"
+					},
+					"response": []
+				},
+				{
+					"name": "cashierLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "29d732a0-a4d9-4b2d-bd67-b50e638e7ddc",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"cashierLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"cashier\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{cashier}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "普通收银员登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "userLoginOutSuccess",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{URL}}passport/logout",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"logout"
+							]
+						},
+						"description": "用户退出登录"
+					},
+					"response": []
+				},
+				{
+					"name": "getDetailOfUserFail_accessTokenFail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50ab6904-9b7c-488e-8d6a-18bfae15ad9e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"getDetailOfUserFail_accessTokenFail\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"ACCESS_TOKEN_INVALID\");",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{URL}}user/fetch",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"fetch"
+							]
+						},
+						"description": "用户未登录"
+					},
+					"response": []
+				},
+				{
+					"name": "refreshAccessTokenSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6367f799-5ccc-42b0-a788-3ff2cc69e575",
+								"type": "text/javascript",
+								"exec": [
+									"",
+									"pm.test(\"refreshAccessTokenSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "refreshToken",
+									"value": "{{refreshToken}}",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "{{userId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/refresh/token",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"refresh",
+								"token"
+							]
+						},
+						"description": "刷新AccessToken成功"
+					},
+					"response": []
+				},
+				{
+					"name": "getDetailOfUserSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7434688c-e2dd-4a9c-a718-c8a8dcd4f81b",
+								"type": "text/javascript",
+								"exec": [
+									"",
+									"pm.test(\"getDetailOfUserSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{URL}}user/fetch",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"fetch"
+							]
+						},
+						"description": "获取用户详情成功"
+					},
+					"response": []
+				},
+				{
+					"name": "网络状态检查接口",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{URL}}user/check/network",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"check",
+								"network"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "用户管理和用户登录"
+		},
+		{
+			"name": "ProductManage",
+			"item": [
+				{
+					"name": "shopKeeperLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6647c202-4995-4a99-ad31-640318298748",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{shopkeeper}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "店长登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "getCatagoryOfStoreSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae9f2123-07bf-4375-a2af-d0662adf1d3e",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"getCatagoryOfStoreSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    var data = jsonData.data;",
+									"    ",
+									"    hasIt = false;",
+									"    ",
+									"    for(let i = 0; i < data.length; i++  ){",
+									"        if (data[0].categoryName == \"下架分类\"){",
+									"            hasIt = true;",
+									"            break;",
+									"        }",
+									"    }",
+									"    ",
+									"    pm.expect(hasIt).to.eql(false);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{URL}}product/shop/category/query",
+							"host": [
+								"{{URL}}product"
+							],
+							"path": [
+								"shop",
+								"category",
+								"query"
+							]
+						},
+						"description": "获取门店类目"
+					},
+					"response": []
+				},
+				{
+					"name": "getGoodsOfStoreSuccess",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "dir",
+									"value": "{{dir}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "isCombine",
+									"value": "{{isCombine}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "productCategoryId",
+									"value": "{{productCategoryId}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "productCategoryIdList",
+									"value": "{{productCategoryIdList}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "productClassId",
+									"value": "{{productClassId}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "productClassIdList",
+									"value": "{{productClassIdList}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "query",
+									"value": "{{query}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "saleStatus",
+									"value": "{{saleStatus}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "{{sortBy}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "storeCode",
+									"value": "000074",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}product/shop/sku/query",
+							"host": [
+								"{{URL}}product"
+							],
+							"path": [
+								"shop",
+								"sku",
+								"query"
+							]
+						},
+						"description": "获取门店的商品"
+					},
+					"response": []
+				}
+			],
+			"description": "商品管理"
+		},
+		{
+			"name": "PayAndRefund",
+			"item": [
+				{
+					"name": "退款",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "goodsDetail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "operatePwd",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "orderNo",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "paysDetail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundDiscountAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundTotalAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "returnGoods",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "storeManagerUserId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/refund",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"refund"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "收款",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "barcode",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "couponCode",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "eliminateAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "goodsDetail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "orderNo",
+									"value": "",
+									"description": "订单号（非必填）, 订单二次付款的时候必填",
+									"type": "text"
+								},
+								{
+									"key": "payAmount",
+									"value": "",
+									"description": "本次付款的金额,如果是全额付款，可不填",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "",
+									"description": "ALIPAY, WECHAT, BAIDUPAY, BESTPAY, QUICK_PASS, CASH, POS, VIPCARD, CARD_ACCOUNTING",
+									"type": "text"
+								},
+								{
+									"key": "tempDiscountAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "totalDiscountAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "unDiscountAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "vipCardNo",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/pay",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"pay"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "收款和退款"
+		},
+		{
+			"name": "OrderManage",
+			"item": [
+				{
+					"name": "shopKeeperLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6647c202-4995-4a99-ad31-640318298748",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{shopkeeper}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "店长登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "orderSummaryFail_Duration>7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "45c06ed5-ebc6-4470-80b6-77db2c7cbefd",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummaryFail_Duration>7\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cashierId",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "endTime",
+									"value": "2018-10-01 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "2018-03-01 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/amount/sum",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"amount",
+								"sum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderSummaryFail_startDate>endDate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a791838b-1a1a-4377-8745-b7e63a9a3f89",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummaryFail_startDate>endDate\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"    pm.expect(jsonData.result.errorMsg).to.eql(\"开始时间不能大于结束时间\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cashierId",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "endTime",
+									"value": "2018-04-04 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "2018-05-01 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/amount/sum",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"amount",
+								"sum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderSummaryFail_Duration>31",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "004f0bf5-f6dd-4937-9bc4-272c24cd818a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummaryFail_Duration>31\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "31c7c8cb-db3a-40ff-adfb-7b4f79e46a64",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"uom.setMonth(uom.getMonth() - 1); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setMonth(uom.getMonth() + 1); ",
+									"uom.setDate(3);",
+									"var endDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"console.log(startDate);",
+									"console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/amount/sum",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"amount",
+								"sum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderSummarySuccess_Duration<7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64bc5277-e8e0-4dd0-9822-a480de61b895",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummarySuccess_Duration<7\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7dbd3d4e-56a9-4485-ac86-300ccd54b7f3",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"uom.setMonth(uom.getMonth() - 5); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + uom.getMonth() + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setDate(28);",
+									"var endDate = uom.getFullYear() + \"-\" + uom.getMonth() + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"// console.log(startDate);",
+									"// console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/amount/sum",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"amount",
+								"sum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "orderSumarySuccess_Duration=31",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a766bb84-b30a-4778-a446-188a09472c02",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSumarySuccess_Duration<31\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "365a2248-6236-41d5-98e5-720309817d1d",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"// uom.setMonth(uom.getMonth() - 5); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setDate(31);",
+									"var endDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"console.log(startDate);",
+									"console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/amount/sum",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"amount",
+								"sum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "documentOforderSummaryFail_Duration>7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "45c06ed5-ebc6-4470-80b6-77db2c7cbefd",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummaryFail_Duration>7\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "375ffa26-84d7-409d-822f-6bf8df771cc2",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"uom.setMonth(uom.getMonth() - 6); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + uom.getMonth() + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setDate(28);",
+									"var endDate = uom.getFullYear() + \"-\" + uom.getMonth() + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"console.log(startDate);",
+									"console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/bill",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"bill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "documentOforderSummaryFail_startDate>endDate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a791838b-1a1a-4377-8745-b7e63a9a3f89",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummaryFail_startDate>endDate\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"    pm.expect(jsonData.result.errorMsg).to.eql(\"开始时间不能大于结束时间\");",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "cashierId",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "endTime",
+									"value": "2018-04-04 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "2018-05-01 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/bill",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"bill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "documentOforderSummaryFail_Duration>31",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "004f0bf5-f6dd-4937-9bc4-272c24cd818a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummaryFail_Duration>31\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "fa517373-1743-45c8-95f2-076feb26221c",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"uom.setMonth(uom.getMonth() - 1); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setMonth(uom.getMonth() + 1); ",
+									"uom.setDate(3);",
+									"var endDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"console.log(startDate);",
+									"console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/bill",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"bill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "documentOforderSummarySuccess_Duration<7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "64bc5277-e8e0-4dd0-9822-a480de61b895",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSummarySuccess_Duration<7\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5d2a9b08-882c-474e-a956-0fc27af52ec8",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"uom.setMonth(uom.getMonth() - 5); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + uom.getMonth() + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setDate(28);",
+									"var endDate = uom.getFullYear() + \"-\" + uom.getMonth() + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"// console.log(startDate);",
+									"// console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/bill",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"bill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "documentOforderSumarySuccess_Duration=31",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a766bb84-b30a-4778-a446-188a09472c02",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"orderSumarySuccess_Duration<31\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "76884824-22ae-4021-ae75-ccb37d720744",
+								"type": "text/javascript",
+								"exec": [
+									"var uom = new Date(); ",
+									"",
+									"// console.log(uom.getMonth())",
+									"",
+									"// uom.setMonth(uom.getMonth() - 5); ",
+									"uom.setDate(1);",
+									"",
+									"var startDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"startDate = startDate + \" 00:00:00\"",
+									"",
+									"uom.setDate(31);",
+									"var endDate = uom.getFullYear() + \"-\" + (uom.getMonth()+1) + \"-\" + uom.getDate();",
+									"endDate = endDate + \" 23:59:59\"",
+									"",
+									"console.log(startDate);",
+									"console.log(endDate);",
+									"",
+									"pm.environment.set(\"startTime\", startDate);",
+									"pm.environment.set(\"endTime\", endDate);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "{{endTime}}",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "{{startTime}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/bill",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"bill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "detailOfOrderSuccess_shopkeeper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5f1e97f0-48f6-4e17-97fa-daa0db5401ad",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"detailOfOrderSuccess_shopkeeper\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    pm.expect(jsonData.data.orderInfo.operationCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderNo",
+									"value": "2561347900001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/detail",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"detail"
+							]
+						},
+						"description": "店长查看自己的订单"
+					},
+					"response": []
+				},
+				{
+					"name": "detailOfOrderSuccess_shopkeeper02",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fa2cdcc3-8700-4143-9ebd-786fb724051d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"detailOfOrderSuccess_shopkeeper\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    pm.expect(jsonData.data.orderInfo.operationCode).to.eql(pm.environment.get(\"cashier\"));",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "orderNo",
+									"value": "2561220300001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/detail",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"detail"
+							]
+						},
+						"description": "店长查看其他收银员的订单"
+					},
+					"response": []
+				},
+				{
+					"name": "listOfOrderSuccess_shopkeeper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4a8fa6c-bce9-4c17-a2ea-4cefaf137648",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"listOfOrderSuccess_cashier\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    pm.expect(jsonData.data.pageData[0].operationCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "onlySeeSuc",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "query",
+									"value": "2561347900001",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tradeType",
+									"value": "",
+									"description": "PAYMENT,CHARGE",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/list",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"list"
+							]
+						},
+						"description": "店长查看其他收银员的订单列表"
+					},
+					"response": []
+				},
+				{
+					"name": "listOfOrderSuccess_shopkeeper02",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9d3ba465-722c-41dd-9215-4b1d8bce748a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"listOfOrderSuccess_cashier\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    pm.expect(jsonData.data.pageData[0].operationCode).to.eql(pm.environment.get(\"cashier\"));",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "onlySeeSuc",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "query",
+									"value": "2561220300001",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tradeType",
+									"value": "",
+									"description": "PAYMENT,CHARGE",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/list",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"list"
+							]
+						},
+						"description": "店长查看其他收银员的订单列表"
+					},
+					"response": []
+				},
+				{
+					"name": "cashierLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90620c7f-73e8-4a5a-b8ee-2fa53703bf25",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"cashierLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"cashier\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{cashier}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "普通收银员登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "listOfOrderFail_cashier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "36332f39-d7df-4f4a-8190-0cd4c7fe13cd",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"listOfOrderFail_cashier\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    pm.expect(jsonData.data.totalCount).to.eql(0);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "onlySeeSuc",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "query",
+									"value": "2561347900001",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tradeType",
+									"value": "",
+									"description": "PAYMENT,CHARGE",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/list",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"list"
+							]
+						},
+						"description": "收银员查看其他收银员的订单"
+					},
+					"response": []
+				},
+				{
+					"name": "listOfOrderSuccess_cashier",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc7ce038-7f61-4f2b-adb0-289dc3d45d32",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"listOfOrderSuccess_cashier\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    pm.expect(jsonData.data.pageData[0].operationCode).to.eql(pm.environment.get(\"cashier\"));",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "endTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "startTime",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "onlySeeSuc",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "pageNumber",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "pageSize",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "query",
+									"value": "2561220300001",
+									"type": "text"
+								},
+								{
+									"key": "storeId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "tradeType",
+									"value": "",
+									"description": "PAYMENT,CHARGE",
+									"type": "text"
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/manager/list",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"manager",
+								"list"
+							]
+						},
+						"description": "收银员查看自己的订单"
+					},
+					"response": []
+				}
+			],
+			"description": "订单管理"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "61fac1a6-13b9-4ac8-bef9-ce31976435a5",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2eda38a4-8f19-4a37-9910-f47817b3e93e",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Content-Type is present\", function () {",
+					"    pm.response.to.have.header(\"Content-Type\");",
+					"});",
+					"",
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	]
+}

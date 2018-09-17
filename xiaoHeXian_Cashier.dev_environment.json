@@ -1,6 +1,6 @@
 {
-  "id": "5dbe7843-40a4-4e62-9bff-146075ba112f",
-  "name": "xiaoHeXian_Web",
+  "id": "d11fe516-7b0b-4ae7-9c9a-e6bf59c2a721",
+  "name": "xiaoHeXian_Cashier",
   "values": [
     {
       "key": "username",
@@ -14,12 +14,30 @@
     },
     {
       "key": "merchantCode",
-      "value": "102386",
+      "value": "100689",
       "enabled": true
     },
     {
       "key": "userphone",
-      "value": "18621902561",
+      "value": "18621902562",
+      "enabled": true
+    },
+    {
+      "key": "shopkeeper",
+      "value": "001",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "enabled": true
+    },
+    {
+      "key": "cashier",
+      "value": "002",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
       "enabled": true
     },
     {
@@ -62,17 +80,8 @@
       "enabled": true
     },
     {
-      "key": "shopkeeper",
-      "value": "y001",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
-      "enabled": true
-    },
-    {
       "key": "URL",
-      "value": "http://gw3.daily.heyean.com/",
+      "value": "http://gw3.daily.heyean.com/cashier/",
       "description": {
         "content": "",
         "type": "text/plain"
@@ -81,16 +90,26 @@
     },
     {
       "key": "userId",
-      "value": 106,
+      "value": 201,
       "enabled": true
     },
     {
       "key": "refreshToken",
-      "value": "2fb632885285e1e0f0e2c97f8123f285",
+      "value": "7448232034d3dff61180a1715d203b27",
+      "enabled": true
+    },
+    {
+      "key": "startTime",
+      "value": "2018-9-1 00:00:00",
+      "enabled": true
+    },
+    {
+      "key": "endTime",
+      "value": "2018-10-1 23:59:59",
       "enabled": true
     }
   ],
   "_postman_variable_scope": "environment",
-  "_postman_exported_at": "2018-09-17T06:07:35.164Z",
+  "_postman_exported_at": "2018-09-17T05:56:36.846Z",
   "_postman_exported_using": "Postman/6.3.0"
 }

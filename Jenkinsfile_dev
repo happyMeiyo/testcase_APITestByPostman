@@ -47,7 +47,7 @@ node('229') {
     catchError {
             sh '''#!/bin/bash -il
             
-            
+            newman run APITestForXiaoHeXianCashier.postman_collection.json -e xiaoHeXian_Cashier.dev_environment.json -g postman_globals.json -r cli,html --reporter-html-export report/reportCashier.html
             '''
         }
         echo currentBuild.result
@@ -65,7 +65,8 @@ node('229') {
 
     stage('Results') {
         
-        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '/home/jenkins/work/workspace/xiaoHeXian_APITest_CI/report', reportFiles: 'reportWeb.html', reportName: 'HTML Report Web', reportTitles: 'Web端接口测试'])
-        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '/home/jenkins/work/workspace/xiaoHeXian_APITest_CI/report', reportFiles: 'reportAPP.html', reportName: 'HTML Report APP', reportTitles: 'APP端接口测试'])
+        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '/home/jenkins/work/workspace/xiaoHeXian_APITest_Daily/report', reportFiles: 'reportWeb.html', reportName: 'HTML Report Web', reportTitles: 'Web端接口测试'])
+        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '/home/jenkins/work/workspace/xiaoHeXian_APITest_Daily/report', reportFiles: 'reportAPP.html', reportName: 'HTML Report APP', reportTitles: 'APP端接口测试'])
+        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: '/home/jenkins/work/workspace/xiaoHeXian_APITest_Daily/report', reportFiles: 'reportCashier.html', reportName: 'HTML Report Cashier', reportTitles: '收银台端接口测试'])
     }
 }
