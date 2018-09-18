@@ -738,7 +738,98 @@
 			"name": "PayAndRefund",
 			"item": [
 				{
-					"name": "退款",
+					"name": "shopKeeperLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6647c202-4995-4a99-ad31-640318298748",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{shopkeeper}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "店长登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "paySuccessbyCARD_ACCOUNTING",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca0fc00c-4d48-4455-bbe4-35c0f1f10e7a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"paySuccessbyCARD_ACCOUNTING\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.success).to.eql(true)",
+									"    ",
+									"    if(pm.expect(jsonData.data.orderStatus).to.eql('PAY_SUC')){",
+									"        pm.environment.set(\"orderNo\", jsonData.data.orderNo);",
+									"        pm.environment.set(\"receiveAmount\", jsonData.data.receiveAmount);",
+									"    }",
+									"});"
+								]
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -752,17 +843,95 @@
 							"urlencoded": [
 								{
 									"key": "goodsDetail",
-									"value": "",
+									"value": "[{\"productCode\":3838300,\"productId\":8774,\"productName\":\"40粒装绿箭口香糖\",\"salePrice\":900,\"saleCount\":1,\"discountAmount\":0,\"saleUnit\":\"瓶\",\"skuTitle\":\"40粒装绿箭口香糖\",\"skuId\":21825,\"skuVersion\":1}]",
 									"type": "text"
 								},
 								{
+									"key": "eliminateAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "tempDiscountAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "900",
+									"type": "text"
+								},
+								{
+									"key": "totalDiscountAmount",
+									"value": "0",
+									"description": "订单号（非必填）, 订单二次付款的时候必填",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "CARD_ACCOUNTING",
+									"description": "本次付款的金额,如果是全额付款，可不填",
+									"type": "text"
+								},
+								{
+									"key": "clientOrderNo",
+									"value": "004201809181556115882685",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/pay",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"pay"
+							]
+						},
+						"description": "银行卡记账成功"
+					},
+					"response": []
+				},
+				{
+					"name": "refundFail_orderNotExsit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2cc2da76-6148-4f48-ac13-1a64061ba9ed",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"refundFail_orderNotExsit\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.errorCode).to.eql('ORDER_NOT_EXIST');",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
 									"key": "operatePwd",
-									"value": "",
+									"value": "111111",
 									"type": "text"
 								},
 								{
 									"key": "orderNo",
-									"value": "",
+									"value": "123",
 									"type": "text"
 								},
 								{
@@ -772,7 +941,7 @@
 								},
 								{
 									"key": "refundAmount",
-									"value": "",
+									"value": "900",
 									"type": "text"
 								},
 								{
@@ -786,13 +955,13 @@
 									"type": "text"
 								},
 								{
-									"key": "returnGoods",
+									"key": "remark",
 									"value": "",
 									"type": "text"
 								},
 								{
-									"key": "storeManagerUserId",
-									"value": "",
+									"key": "returnGoods",
+									"value": "true",
 									"type": "text"
 								}
 							]
@@ -805,12 +974,35 @@
 							"path": [
 								"refund"
 							]
-						}
+						},
+						"description": "退款失败，订单不存在"
 					},
 					"response": []
 				},
 				{
-					"name": "收款",
+					"name": "refundSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7a20deb-e52b-4bca-b8fd-476c8cbec884",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"refundSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    pm.expect(jsonData.data.refundAmount).to.eql(pm.environment.get(\"receiveAmount\"));",
+									"    pm.expect(jsonData.data.orderNo).to.eql(pm.environment.get(\"orderNo\"));",
+									"    pm.expect(jsonData.data.orderStatus).to.eql('ALL_REFUND');",
+									"    ",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -823,79 +1015,143 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "barcode",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "couponCode",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "eliminateAmount",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "goodsDetail",
-									"value": "",
+									"key": "operatePwd",
+									"value": "111111",
 									"type": "text"
 								},
 								{
 									"key": "orderNo",
-									"value": "",
-									"description": "订单号（非必填）, 订单二次付款的时候必填",
+									"value": "{{orderNo}}",
 									"type": "text"
 								},
 								{
-									"key": "payAmount",
-									"value": "",
-									"description": "本次付款的金额,如果是全额付款，可不填",
-									"type": "text"
-								},
-								{
-									"key": "paymentChannel",
-									"value": "",
-									"description": "ALIPAY, WECHAT, BAIDUPAY, BESTPAY, QUICK_PASS, CASH, POS, VIPCARD, CARD_ACCOUNTING",
-									"type": "text"
-								},
-								{
-									"key": "tempDiscountAmount",
+									"key": "paysDetail",
 									"value": "",
 									"type": "text"
 								},
 								{
-									"key": "totalAmount",
+									"key": "refundAmount",
+									"value": "{{receiveAmount}}",
+									"type": "text"
+								},
+								{
+									"key": "refundDiscountAmount",
 									"value": "",
 									"type": "text"
 								},
 								{
-									"key": "totalDiscountAmount",
+									"key": "refundTotalAmount",
 									"value": "",
 									"type": "text"
 								},
 								{
-									"key": "unDiscountAmount",
+									"key": "remark",
 									"value": "",
 									"type": "text"
 								},
 								{
-									"key": "vipCardNo",
-									"value": "",
+									"key": "returnGoods",
+									"value": "true",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{URL}}order/pay",
+							"raw": "{{URL}}order/refund",
 							"host": [
 								"{{URL}}order"
 							],
 							"path": [
-								"pay"
+								"refund"
 							]
+						},
+						"description": "退款成功"
+					},
+					"response": []
+				},
+				{
+					"name": "refundFail_Repeat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2718f9f1-ac64-4074-ae95-afeda631d7f9",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"refundFail_Repeat\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.errorCode).to.eql('ORDER_STATUS_ERROR');",
+									"});",
+									"",
+									""
+								]
+							}
 						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "operatePwd",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}",
+									"type": "text"
+								},
+								{
+									"key": "paysDetail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundAmount",
+									"value": "{{receiveAmount}}",
+									"type": "text"
+								},
+								{
+									"key": "refundDiscountAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundTotalAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "remark",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "returnGoods",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/refund",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"refund"
+							]
+						},
+						"description": "退款失败，重复退款"
 					},
 					"response": []
 				}
