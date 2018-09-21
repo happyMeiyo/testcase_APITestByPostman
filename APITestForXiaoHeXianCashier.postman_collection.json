@@ -2400,14 +2400,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "36332f39-d7df-4f4a-8190-0cd4c7fe13cd",
+								"id": "abb8cff8-7865-4fab-acf2-53286ca002b8",
 								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"listOfOrderFail_cashier\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.result.success).to.eql(true);",
-									"    ",
-									"    pm.expect(jsonData.data.totalCount).to.eql(0);",
+									"    pm.expect(jsonData.result.success).to.eql(false);",
+									"",
 									"});"
 								]
 							}
