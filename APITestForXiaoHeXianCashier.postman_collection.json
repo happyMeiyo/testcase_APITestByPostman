@@ -814,7 +814,6 @@
 							"listen": "test",
 							"script": {
 								"id": "ca0fc00c-4d48-4455-bbe4-35c0f1f10e7a",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"paySuccessbyCARD_ACCOUNTING\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -826,7 +825,8 @@
 									"        pm.environment.set(\"receiveAmount\", jsonData.data.receiveAmount);",
 									"    }",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -864,18 +864,11 @@
 								{
 									"key": "totalDiscountAmount",
 									"value": "0",
-									"description": "订单号（非必填）, 订单二次付款的时候必填",
 									"type": "text"
 								},
 								{
 									"key": "paymentChannel",
 									"value": "CARD_ACCOUNTING",
-									"description": "本次付款的金额,如果是全额付款，可不填",
-									"type": "text"
-								},
-								{
-									"key": "clientOrderNo",
-									"value": "004201809181556115882685",
 									"type": "text"
 								}
 							]
@@ -1176,6 +1169,389 @@
 							]
 						},
 						"description": "退款失败，重复退款"
+					},
+					"response": []
+				},
+				{
+					"name": "paySuccessByVipCardFail_VipInvalid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca0fc00c-4d48-4455-bbe4-35c0f1f10e7a",
+								"exec": [
+									"pm.test(\"paySuccessbyCARD_ACCOUNTING\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"VIP_TOKEN_TIME_OUT\")",
+									"    ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardDiscountAmount",
+									"value": "168",
+									"type": "text"
+								},
+								{
+									"key": "goodsDetail",
+									"value": "[{\"isVipPrice\":false,\"productCode\":483300,\"productId\":8757,\"productName\":\"奥利奥好清脆95克\",\"salePrice\":700,\"saleCount\":1,\"discountAmount\":0,\"saleUnit\":\"盒\",\"skuTitle\":\"奥利奥好清脆95克\",\"skuId\":21792,\"skuVersion\":1},{\"isVipPrice\":false,\"productCode\":6895100,\"productId\":8758,\"productName\":\"华味亨果丹皮150g\",\"salePrice\":480,\"saleCount\":1,\"discountAmount\":0,\"saleUnit\":\"袋\",\"skuTitle\":\"华味亨果丹皮150g\",\"skuId\":21794,\"skuVersion\":1},{\"isVipPrice\":false,\"productCode\":null,\"productId\":10812,\"productName\":\"酸奶\",\"salePrice\":1000,\"saleCount\":1,\"discountAmount\":500,\"saleUnit\":\"ml\",\"skuTitle\":\"北京市 品牌1 酸奶 500ml\",\"skuId\":25792,\"skuVersion\":2}]",
+									"type": "text"
+								},
+								{
+									"key": "eliminateAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "tempDiscountAmount",
+									"value": "1361",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "2180",
+									"type": "text"
+								},
+								{
+									"key": "totalDiscountAmount",
+									"value": "2029",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "VIPCARD",
+									"type": "text"
+								},
+								{
+									"key": "clientOrderNo",
+									"value": "001201810251754180778620",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "point",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "vipPayToken",
+									"value": "1753443764",
+									"type": "text"
+								},
+								{
+									"key": "couponCode",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/pay",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"pay"
+							]
+						},
+						"description": "会员卡余额支付，会员信息失效"
+					},
+					"response": []
+				},
+				{
+					"name": "getDetailOfVipSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7389c58-cc85-46ed-a0f0-845949c6e5f3",
+								"exec": [
+									"pm.test(\"getDetailOfVipSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    ",
+									"    if ( jsonData.data )",
+									"    {",
+									"        phone = String(jsonData.data.vipPhone);",
+									"        pm.expect(phone.substring(7, 11)).to.eql(pm.environment.get(\"vipPhone\"));",
+									"        pm.environment.set(\"vipPayToken\", jsonData.data.vipPayToken);",
+									"    }",
+									"    ",
+									"});",
+									"",
+									"",
+									" setTimeout(function(){",
+									"     postman.setNextRequest('paySuccessByVipCard');",
+									" });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}vip/detail/query",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"detail",
+								"query"
+							]
+						},
+						"description": "获取会员详情"
+					},
+					"response": []
+				},
+				{
+					"name": "paySuccessByVipCard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca0fc00c-4d48-4455-bbe4-35c0f1f10e7a",
+								"exec": [
+									"pm.test(\"paySuccessbyCARD_ACCOUNTING\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    ",
+									"    if(pm.expect(jsonData.data.orderStatus).to.eql('PAY_SUC')){",
+									"        pm.environment.set(\"orderNo\", jsonData.data.orderNo);",
+									"        pm.environment.set(\"receiveAmount\", jsonData.data.receiveAmount);",
+									"    }",
+									"});",
+									"",
+									" setTimeout(function(){",
+									"     postman.setNextRequest('refundSuccess_ByVipCard');",
+									" });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardDiscountAmount",
+									"value": "168",
+									"type": "text"
+								},
+								{
+									"key": "goodsDetail",
+									"value": "[{\"isVipPrice\":false,\"productCode\":483300,\"productId\":8757,\"productName\":\"奥利奥好清脆95克\",\"salePrice\":700,\"saleCount\":1,\"discountAmount\":0,\"saleUnit\":\"盒\",\"skuTitle\":\"奥利奥好清脆95克\",\"skuId\":21792,\"skuVersion\":1},{\"isVipPrice\":false,\"productCode\":6895100,\"productId\":8758,\"productName\":\"华味亨果丹皮150g\",\"salePrice\":480,\"saleCount\":1,\"discountAmount\":0,\"saleUnit\":\"袋\",\"skuTitle\":\"华味亨果丹皮150g\",\"skuId\":21794,\"skuVersion\":1},{\"isVipPrice\":false,\"productCode\":null,\"productId\":10812,\"productName\":\"酸奶\",\"salePrice\":1000,\"saleCount\":1,\"discountAmount\":500,\"saleUnit\":\"ml\",\"skuTitle\":\"北京市 品牌1 酸奶 500ml\",\"skuId\":25792,\"skuVersion\":2}]",
+									"type": "text"
+								},
+								{
+									"key": "eliminateAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "tempDiscountAmount",
+									"value": "1361",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "2180",
+									"type": "text"
+								},
+								{
+									"key": "totalDiscountAmount",
+									"value": "2029",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "VIPCARD",
+									"type": "text"
+								},
+								{
+									"key": "clientOrderNo",
+									"value": "001201810251754180778620",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "point",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "vipPayToken",
+									"value": "{{vipPayToken}}",
+									"type": "text"
+								},
+								{
+									"key": "couponCode",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/pay",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"pay"
+							]
+						},
+						"description": "会员卡余额支付"
+					},
+					"response": []
+				},
+				{
+					"name": "refundSuccess_ByVipCard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ca64b9e-ba1f-44dd-9f87-6a4996cfc018",
+								"exec": [
+									"pm.test(\"refundSuccess_ByVipCard\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    pm.expect(jsonData.data.refundAmount).to.eql(pm.environment.get(\"receiveAmount\"));",
+									"    pm.expect(jsonData.data.orderNo).to.eql(pm.environment.get(\"orderNo\"));",
+									"    pm.expect(jsonData.data.orderStatus).to.eql('ALL_REFUND');",
+									"    ",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "23da08a7-2061-45f6-9a7a-5b3017da0188",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "operatePwd",
+									"value": "111111",
+									"type": "text"
+								},
+								{
+									"key": "orderNo",
+									"value": "{{orderNo}}",
+									"type": "text"
+								},
+								{
+									"key": "paysDetail",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundAmount",
+									"value": "{{receiveAmount}}",
+									"type": "text"
+								},
+								{
+									"key": "refundDiscountAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "refundTotalAmount",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "remark",
+									"value": "这是全额退款",
+									"type": "text"
+								},
+								{
+									"key": "returnGoods",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/refund",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"refund"
+							]
+						},
+						"description": "会员卡余额支付，退款成功"
 					},
 					"response": []
 				}
@@ -2581,6 +2957,612 @@
 				}
 			],
 			"description": "订单管理"
+		},
+		{
+			"name": "VipApplication",
+			"item": [
+				{
+					"name": "shopKeeperLoginSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6647c202-4995-4a99-ad31-640318298748",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
+									"    ",
+									"    pm.environment.set(\"userId\", jsonData.data.userId);",
+									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json;charset=UTF-8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "merchantCode",
+									"value": "{{merchantCode}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{shopkeeper}}",
+									"type": "text"
+								},
+								{
+									"key": "verifyCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}passport/login",
+							"host": [
+								"{{URL}}passport"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "店长登录成功"
+					},
+					"response": []
+				},
+				{
+					"name": "getInfoOfVipFail_vipCodeNull",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3e6b528-63f3-417f-b841-c25b79e42421",
+								"exec": [
+									"pm.test(\"getInfoOfVipFail_vipCodeNull\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAM_ERROR\");",
+									"    ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCode",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}vip/simple/detail/list",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"simple",
+								"detail",
+								"list"
+							]
+						},
+						"description": "获取会员信息，vipCodeNull"
+					},
+					"response": []
+				},
+				{
+					"name": "getInfoOfVipSuccessByPhone",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50fa1598-681e-4ea7-b58c-67caa691020b",
+								"exec": [
+									"pm.test(\"getInfoOfVipSuccessByPhone\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    if ( jsonData.data )",
+									"    {",
+									"        phone = String(jsonData.data[0].vipPhone);",
+									"        pm.expect(phone.substring(7, 11)).to.eql(pm.environment.get(\"vipPhone\"));",
+									"        pm.environment.set(\"vipCardNo\", jsonData.data[0].vipCardNo);",
+									"    }",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCode",
+									"value": "{{vipPhone}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}vip/simple/detail/list",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"simple",
+								"detail",
+								"list"
+							]
+						},
+						"description": "通过手机号后四位获取会员信息"
+					},
+					"response": []
+				},
+				{
+					"name": "getInfoOfVipSuccessByVipNO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8fd4345c-cd4b-48a7-b235-21493c77ad43",
+								"exec": [
+									"pm.test(\"getInfoOfVipSuccessByPhone\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    ",
+									"    if ( jsonData.data )",
+									"    {",
+									"        phone = String(jsonData.data[0].vipPhone);",
+									"        pm.expect(phone.substring(7, 11)).to.eql(pm.environment.get(\"vipPhone\"));",
+									"    }",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCode",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}vip/simple/detail/list",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"simple",
+								"detail",
+								"list"
+							]
+						},
+						"description": "通过会员卡号获取会员信息"
+					},
+					"response": []
+				},
+				{
+					"name": "getDetailOfVipSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7389c58-cc85-46ed-a0f0-845949c6e5f3",
+								"exec": [
+									"pm.test(\"getDetailOfVipSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    ",
+									"    if ( jsonData.data )",
+									"    {",
+									"        phone = String(jsonData.data.vipPhone);",
+									"        pm.expect(phone.substring(7, 11)).to.eql(pm.environment.get(\"vipPhone\"));",
+									"    }",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}vip/detail/query",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"detail",
+								"query"
+							]
+						},
+						"description": "获取会员详情"
+					},
+					"response": []
+				},
+				{
+					"name": "getListOfCoupleSuccess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d5e5e04a-0b53-4d79-9407-025b53e452ac",
+								"exec": [
+									"pm.test(\"getListOfCoupleSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}vip/coupon/list",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"coupon",
+								"list"
+							]
+						},
+						"description": "获取券列表"
+					},
+					"response": []
+				},
+				{
+					"name": "getListOfChargeRule_Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4f27c79-9d84-4cf3-a9bf-8709502ec40f",
+								"exec": [
+									"pm.test(\"getListOfCoupleSuccess\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}vip/recharge/rule/list",
+							"host": [
+								"{{URL}}vip"
+							],
+							"path": [
+								"recharge",
+								"rule",
+								"list"
+							]
+						},
+						"description": "获取充值列表"
+					},
+					"response": []
+				},
+				{
+					"name": "vipChargeSuccess_ByCard",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eaeca987-b8b8-478b-a7df-de788d55f717",
+								"exec": [
+									"pm.test(\"vipChargeSuccess_ByCard\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "1900",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "CARD_ACCOUNTING",
+									"type": "text"
+								},
+								{
+									"key": "vipPayToken",
+									"value": "1648549198",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/charge",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"charge"
+							]
+						},
+						"description": "会员充值，银行卡收款"
+					},
+					"response": []
+				},
+				{
+					"name": "vipChargeSuccess_ByCash",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a1cac36c-935b-4109-bcfa-1923120f4c2a",
+								"exec": [
+									"pm.test(\"vipChargeSuccess_ByCash\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "CASH",
+									"type": "text"
+								},
+								{
+									"key": "vipPayToken",
+									"value": "1648549198",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/charge",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"charge"
+							]
+						},
+						"description": "会员充值，现金收款"
+					},
+					"response": []
+				},
+				{
+					"name": "vipChargeSuccess_ByCode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c074676-4de2-4850-967c-bec471507a58",
+								"exec": [
+									"pm.test(\"vipChargeSuccess_ByCash\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.result.errorCode).to.eql(\"PAY_FAILED\");",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "vipCardNo",
+									"value": "{{vipCardNo}}",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "200",
+									"type": "text"
+								},
+								{
+									"key": "vipPayToken",
+									"value": "1648549198",
+									"type": "text"
+								},
+								{
+									"key": "barcode",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/charge",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"charge"
+							]
+						},
+						"description": "会员充值，二维码收款"
+					},
+					"response": []
+				}
+			],
+			"description": "会员相关业务"
 		}
 	],
 	"event": [
