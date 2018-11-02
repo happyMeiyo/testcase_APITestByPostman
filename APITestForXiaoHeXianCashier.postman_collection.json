@@ -2020,20 +2020,19 @@
 							"listen": "test",
 							"script": {
 								"id": "45c06ed5-ebc6-4470-80b6-77db2c7cbefd",
-								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"orderSummaryFail_Duration>7\", function () {",
+									"pm.test(\"documentOforderSummaryFail_Duration>7\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "375ffa26-84d7-409d-822f-6bf8df771cc2",
-								"type": "text/javascript",
 								"exec": [
 									"var uom = new Date(); ",
 									"",
@@ -2054,7 +2053,8 @@
 									"",
 									"pm.environment.set(\"startTime\", startDate);",
 									"pm.environment.set(\"endTime\", endDate);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
