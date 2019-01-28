@@ -882,13 +882,91 @@
 					"response": []
 				},
 				{
+					"name": "paySuccessbyCASH",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca0fc00c-4d48-4455-bbe4-35c0f1f10e7a",
+								"exec": [
+									"pm.test(\"paySuccessbyCASH\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    pm.expect(jsonData.result.success).to.eql(true);",
+									"    ",
+									"    if(pm.expect(jsonData.data.orderStatus).to.eql('PAY_SUC')){",
+									"        pm.environment.set(\"orderNo\", jsonData.data.orderNo);",
+									"        pm.environment.set(\"receiveAmount\", jsonData.data.receiveAmount);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "goodsDetail",
+									"value": "[{\"productCode\":3838300,\"productId\":8774,\"productName\":\"40粒装绿箭口香糖\",\"salePrice\":900,\"saleCount\":1,\"discountAmount\":0,\"saleUnit\":\"瓶\",\"skuTitle\":\"40粒装绿箭口香糖\",\"skuId\":21825,\"skuVersion\":1}]",
+									"type": "text"
+								},
+								{
+									"key": "eliminateAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "tempDiscountAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "totalAmount",
+									"value": "900",
+									"type": "text"
+								},
+								{
+									"key": "totalDiscountAmount",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "paymentChannel",
+									"value": "CASH",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}order/pay",
+							"host": [
+								"{{URL}}order"
+							],
+							"path": [
+								"pay"
+							]
+						},
+						"description": "现金收款成功"
+					},
+					"response": []
+				},
+				{
 					"name": "refundFail_orderNotExsit",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "2cc2da76-6148-4f48-ac13-1a64061ba9ed",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"refundFail_orderNotExsit\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -897,7 +975,8 @@
 									"});",
 									"",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -914,7 +993,7 @@
 							"urlencoded": [
 								{
 									"key": "operatePwd",
-									"value": "111111",
+									"value": "123456",
 									"type": "text"
 								},
 								{
@@ -974,7 +1053,6 @@
 							"listen": "test",
 							"script": {
 								"id": "1ca64b9e-ba1f-44dd-9f87-6a4996cfc018",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"refundSuccess\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -991,17 +1069,18 @@
 									" }, 10000);",
 									"",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "23da08a7-2061-45f6-9a7a-5b3017da0188",
-								"type": "text/javascript",
 								"exec": [
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -1018,7 +1097,7 @@
 							"urlencoded": [
 								{
 									"key": "operatePwd",
-									"value": "111111",
+									"value": "123456",
 									"type": "text"
 								},
 								{
