@@ -2081,140 +2081,20 @@
 							"response": []
 						},
 						{
-							"name": "onSaleCatagoryOfStoreFail_isOnlineNull",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"pm.test(\"createCatagoryFail_catagoryExsit\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
-											"    pm.expect(jsonData.result.success).to.eql(false);",
-											"});",
-											""
-										]
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "*/*"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "isOnline",
-											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "xrefId",
-											"value": "{{OneLevelCategoryId}}",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{URL}}pc/product/category/store/online",
-									"host": [
-										"{{URL}}pc"
-									],
-									"path": [
-										"product",
-										"category",
-										"store",
-										"online"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "onSaleCatagoryOfStoreFail_isOnlineNull Copy",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"type": "text/javascript",
-										"exec": [
-											"pm.test(\"createCatagoryFail_catagoryExsit\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
-											"    pm.expect(jsonData.result.success).to.eql(false);",
-											"});",
-											""
-										]
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "*/*"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/x-www-form-urlencoded"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "isOnline",
-											"value": "",
-											"type": "text"
-										},
-										{
-											"key": "xrefId",
-											"value": "{{OneLevelCategoryId}}",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{URL}}pc/product/category/store/online",
-									"host": [
-										"{{URL}}pc"
-									],
-									"path": [
-										"product",
-										"category",
-										"store",
-										"online"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "unSaleCatagoryOfStoreFail_IdNull",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"id": "84e72bf2-b40a-4d1f-93c4-e78acef5c165",
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"unSaleCatagoryOfStoreFail_IdNull\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
 											"});",
 											""
-										]
+										],
+										"type": "text/javascript"
 									}
 								}
 							],
@@ -2251,7 +2131,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{URL}}pc/product/category/store/online",
+									"raw": "{{URL}}pc/product/category/store/status/update",
 									"host": [
 										"{{URL}}pc"
 									],
@@ -2259,7 +2139,8 @@
 										"product",
 										"category",
 										"store",
-										"online"
+										"status",
+										"update"
 									]
 								},
 								"description": "下架类目，id为Null"
@@ -2273,14 +2154,14 @@
 									"listen": "test",
 									"script": {
 										"id": "c9d697f2-ca55-4095-a20d-89b616ea0307",
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"unSaleCatagoryOfStoreSuccess\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.result.errorCode).to.eql(\"PARAMETER_ERROR\");",
 											"});",
 											""
-										]
+										],
+										"type": "text/javascript"
 									}
 								}
 							],
@@ -2317,7 +2198,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{URL}}pc/product/category/store/online",
+									"raw": "{{URL}}pc/product/category/store/status/update",
 									"host": [
 										"{{URL}}pc"
 									],
@@ -2325,7 +2206,8 @@
 										"product",
 										"category",
 										"store",
-										"online"
+										"status",
+										"update"
 									]
 								},
 								"description": "下架类目，门店编号为空"
@@ -2339,14 +2221,14 @@
 									"listen": "test",
 									"script": {
 										"id": "3c9f578e-9d52-412d-a3f9-e5c329018e48",
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"unSaleCatagoryOfStoreSuccess\", function () {",
 											"    var jsonData = pm.response.json();",
 											"    pm.expect(jsonData.result.success).to.eql(true);",
 											"});",
 											""
-										]
+										],
+										"type": "text/javascript"
 									}
 								}
 							],
@@ -2383,7 +2265,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{URL}}pc/product/category/store/online",
+									"raw": "{{URL}}pc/product/category/store/status/update",
 									"host": [
 										"{{URL}}pc"
 									],
@@ -2391,7 +2273,8 @@
 										"product",
 										"category",
 										"store",
-										"online"
+										"status",
+										"update"
 									]
 								},
 								"description": "下架类目"
