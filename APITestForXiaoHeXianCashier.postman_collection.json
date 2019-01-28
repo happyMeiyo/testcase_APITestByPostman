@@ -818,12 +818,7 @@
 									"pm.test(\"paySuccessbyCARD_ACCOUNTING\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    ",
-									"    pm.expect(jsonData.result.success).to.eql(true)",
-									"    ",
-									"    if(pm.expect(jsonData.data.orderStatus).to.eql('PAY_SUC')){",
-									"        pm.environment.set(\"orderNo\", jsonData.data.orderNo);",
-									"        pm.environment.set(\"receiveAmount\", jsonData.data.receiveAmount);",
-									"    }",
+									"    pm.expect(jsonData.result.success).to.eql(false)",
 									"});"
 								],
 								"type": "text/javascript"
