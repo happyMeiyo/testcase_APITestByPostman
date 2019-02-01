@@ -90,11 +90,13 @@
 								"exec": [
 									"pm.test(\"shopKeeperLoginSuccess\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
-									"    ",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper2\"));",
 									"    pm.environment.set(\"userId\", jsonData.data.userId);",
 									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
-									"});"
+									"    ",
+									"});",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -157,16 +159,16 @@
 							"listen": "test",
 							"script": {
 								"id": "3a4ec4f2-767c-42e8-879c-a50e6e6cc1c6",
-								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"shopKeeperLoginSuccess\", function () {",
+									"pm.test(\"shopKeeperLoginSuccess_ByPhone\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.data.userPhone).to.eql(pm.environment.get(\"userphone\"));",
 									"    ",
 									"    pm.environment.set(\"userId\", jsonData.data.userId);",
 									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
