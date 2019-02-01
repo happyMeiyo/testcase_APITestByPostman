@@ -16,9 +16,8 @@
 							"listen": "test",
 							"script": {
 								"id": "bc89d5ac-2f3a-4ceb-b9e8-54d09455ed90",
-								"type": "text/javascript",
 								"exec": [
-									"pm.test(\"merchantLoginSuccess\", function () {",
+									"pm.test(\"merchantLoginFail_Forbidden\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.result.success).to.eql(false);",
 									"    pm.expect(jsonData.result.errorCode).to.eql(\"LOGIN_FORBIDDEN\");",
@@ -26,7 +25,8 @@
 									"});",
 									"",
 									""
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -87,7 +87,6 @@
 							"listen": "test",
 							"script": {
 								"id": "6647c202-4995-4a99-ad31-640318298748",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"shopKeeperLoginSuccess\", function () {",
 									"    var jsonData = pm.response.json();",
@@ -96,7 +95,8 @@
 									"    pm.environment.set(\"userId\", jsonData.data.userId);",
 									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
