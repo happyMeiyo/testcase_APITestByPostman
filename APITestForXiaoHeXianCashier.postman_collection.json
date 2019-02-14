@@ -90,7 +90,7 @@
 								"exec": [
 									"pm.test(\"shopKeeperLoginSuccess\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper2\"));",
+									"    pm.expect(jsonData.data.userCode).to.eql(pm.environment.get(\"shopkeeper\"));",
 									"    pm.environment.set(\"userId\", jsonData.data.userId);",
 									"    pm.environment.set(\"refreshToken\", jsonData.data.refreshToken);",
 									"    ",
