@@ -3061,21 +3061,20 @@
 							"listen": "test",
 							"script": {
 								"id": "64bc5277-e8e0-4dd0-9822-a480de61b895",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"orderSummarySuccess_Duration<7\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.result.success).to.eql(true);",
 									"    ",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "5d2a9b08-882c-474e-a956-0fc27af52ec8",
-								"type": "text/javascript",
 								"exec": [
 									"var uom = new Date(); ",
 									"",
@@ -3096,7 +3095,8 @@
 									"",
 									"pm.environment.set(\"startTime\", startDate);",
 									"pm.environment.set(\"endTime\", endDate);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -3124,13 +3124,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{URL}}order/manager/bill",
+							"raw": "{{URL}}order/manager/list",
 							"host": [
 								"{{URL}}order"
 							],
 							"path": [
 								"manager",
-								"bill"
+								"list"
 							]
 						}
 					},
@@ -3143,21 +3143,20 @@
 							"listen": "test",
 							"script": {
 								"id": "a766bb84-b30a-4778-a446-188a09472c02",
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"orderSumarySuccess_Duration<31\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.result.success).to.eql(true);",
 									"    ",
 									"});"
-								]
+								],
+								"type": "text/javascript"
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"id": "76884824-22ae-4021-ae75-ccb37d720744",
-								"type": "text/javascript",
 								"exec": [
 									"var uom = new Date(); ",
 									"",
@@ -3178,7 +3177,8 @@
 									"",
 									"pm.environment.set(\"startTime\", startDate);",
 									"pm.environment.set(\"endTime\", endDate);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -3206,13 +3206,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{URL}}order/manager/bill",
+							"raw": "{{URL}}order/manager/list",
 							"host": [
 								"{{URL}}order"
 							],
 							"path": [
 								"manager",
-								"bill"
+								"list"
 							]
 						}
 					},
