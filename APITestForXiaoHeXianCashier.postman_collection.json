@@ -306,10 +306,7 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"url": {
 							"raw": "{{URL}}passport/logout",
 							"host": [
@@ -353,10 +350,7 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
+						"body": {},
 						"url": {
 							"raw": "{{URL}}user/fetch",
 							"host": [
@@ -461,10 +455,7 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
+						"body": {},
 						"url": {
 							"raw": "{{URL}}user/fetch",
 							"host": [
@@ -492,10 +483,7 @@
 								"value": "application/json"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
+						"body": {},
 						"url": {
 							"raw": "{{URL}}user/check/network",
 							"host": [
@@ -626,10 +614,7 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": []
-						},
+						"body": {},
 						"url": {
 							"raw": "{{URL}}product/shop/category/query",
 							"host": [
@@ -796,12 +781,12 @@
 								},
 								{
 									"key": "password",
-									"value": "a123456",
+									"value": "qy2019",
 									"type": "text"
 								},
 								{
 									"key": "username",
-									"value": "qing",
+									"value": "qingyu",
 									"type": "text"
 								},
 								{
@@ -1132,6 +1117,10 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{URL}}vip/recharge/rule/list",
 							"host": [
